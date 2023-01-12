@@ -8,8 +8,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 let transactions = [];
 let personnes = [];
 
-app.get('/', (req,res)=>{
-    return res.send(transactions);
+app.get('/', (req,res) => {
+    return res.send(transactions.slice().sort((a,b) => b.t - a.t));
 });
 
 app.get('/personnes', (req, res) => {
@@ -18,7 +18,10 @@ app.get('/personnes', (req, res) => {
 
 app.get('/transactions', (req, res) => {
     return res.send(transactions);
-  });
+});
+app.get('/transactions/:idPersonne', (req, res) => {
+    return res.send(transactions.filter(t => t.P1 === parseInt(req.params.idPersonne) || t.P2 === parseInt(req.params.idPersonne)));
+});
 
 app.post('/personnes', (req, res) => {
     const personne = {
