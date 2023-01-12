@@ -23,6 +23,11 @@ app.get('/transactions/:idPersonne', (req, res) => {
     return res.send(transactions.filter(t => t.P1 === parseInt(req.params.idPersonne) || t.P2 === parseInt(req.params.idPersonne)));
 });
 
+app.get('/soldePersonne/:idPersonne', (req, res) => {
+    const P1 = personnes.find(p => p.id === parseInt(req.params.idPersonne));
+    return res.send(P1.solde);
+});
+
 app.post('/personnes', (req, res) => {
     const personne = {
         id: personnes.length + 1,
