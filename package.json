@@ -1,0 +1,24 @@
+{
+  "name": "4a_ilc_demonceaux_thomas",
+  "version": "1.0.0",
+  "description": "Par Mathis DEMONCEAUX et Gauthier THOMAS, en spécialité ILC.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MathisDemonceaux/4A_ILC_Demonceaux_Thomas.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MathisDemonceaux/4A_ILC_Demonceaux_Thomas/issues"
+  },
+  "homepage": "https://github.com/MathisDemonceaux/4A_ILC_Demonceaux_Thomas#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
