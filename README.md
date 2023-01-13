@@ -9,7 +9,7 @@ Ce projet a pour but de mettre en place un pipeline de CI/CD pour un projet d'AP
 
  ## Choix sujet et choix du langage
 
-Pour ce projet nous avons décidés de prendre le premier sujet qui nous a été proposé. Nous avons fait ce projet à l'aide de Node.js car un Gauthier avait déjà de solide dans ce langage.
+Pour ce projet nous avons décidés de prendre le premier sujet qui nous a été proposé car nous n'avions pas d'autres sujet de prédilection. Nous avons fait ce projet à l'aide de Node.js car un Gauthier avait déjà de solide dans ce langage.
 
 ## Build Status
 
