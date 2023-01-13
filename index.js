@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import { fs } from 'fs';
 
 const app = express();
 app.use(bodyParser.json());
@@ -76,6 +77,21 @@ app.delete('/personnes/:id', (req, res) => {
         return res.send(personne);
     }
 });
+//open a csv file an import data in personnes
+app.get('/importPersonnes', (req, res) => {
+    const fs = require('fs');
+    const csv = require('csv-parser');
+    //open csv fil name personnes.csv and import data in personnes
+    fs.createReadStream('personnes.csv')
+        .pipe(csv())
+        .on('data', (row) => {
+            personnes.push(row);
+        })
+        .on('end', () => {
+            console.log('CSV file successfully processed');
+        });
+});
+
 
 
 app.listen(3000);
