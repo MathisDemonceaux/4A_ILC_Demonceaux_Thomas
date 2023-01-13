@@ -92,6 +92,20 @@ app.get('/importPersonnes', (req, res) => {
     return res.send(personnes);
 });
 
+//open a csv file an import data in transactions
+app.get('/importTransactions', (req, res) => {
+    //open csv fil name transactions.csv and import data in transactions
+    fs.createReadStream('transactions.csv')
+        .pipe(csv())
+        .on('data', (row) => {
+            transactions.push(row);
+        })
+        .on('end', () => {
+            console.log('CSV file successfully processed');
+        });
+    return res.send(transactions);
+});
+
 
 
 app.listen(3000);
