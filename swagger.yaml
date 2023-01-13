@@ -1,0 +1,186 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Transactions API
+  description: An API for managing transactions between people
+host: localhost:3000
+basePath: /
+schemes:
+  - http
+paths:
+  /:
+    get:
+      summary: Get all transactions sorted by timestamp
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                P1:
+                  type: integer
+                P2:
+                  type: integer
+                t:
+                  type: integer
+                s:
+                  type: integer
+  /personnes:
+    get:
+      summary: Get all people
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                nom:
+                  type: string
+                prenom:
+                  type: string
+                solde:
+                  type: integer
+    post:
+      summary: Create a new person
+      parameters:
+        - name: personne
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              nom:
+                type: string
+              prenom:
+                type: string
+              solde:
+                type: integer
+      responses:
+        201:
+          description: Success
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              nom:
+                type: string
+              prenom:
+                type: string
+              solde:
+                type: integer
+  /transactions:
+    get:
+      summary: Get all transactions
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                P1:
+                  type: integer
+                P2:
+                  type: integer
+                t:
+                  type: integer
+                s:
+                  type: integer
+    post:
+      summary: Create a new transaction
+      parameters:
+        - name: transaction
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              P1:
+                type: integer
+              P2:
+                type: integer
+              somme:
+                type: integer
+              date:
+                type: integer
+      responses:
+        201:
+          description: Success
+          schema:
+            type: object
+            properties:
+              P1:
+                type: integer
+              P2:
+                type: integer
+              t:
+                type: integer
+              s:
+                type: integer
+  /transactions/{idPersonne}:
+    get:
+      summary: Get transactions involving a specific person
+      parameters:
+        - name: idPersonne
+          in: path
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                P1:
+                  type: integer
+                P2:
+                  type: integer
+                t:
+                  type: integer
+                s:
+                  type: integer
+  /soldePersonne/{idPersonne}:
+    get:
+      summary: Get the current balance of a specific person
+      parameters:
+        - name: idPersonne
+          in: path
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Success
+          schema:
+            type: integer
+  /personnes/{id}:
+    delete:
+      summary: Delete a specific person
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              nom:
+                type: string
+              prenom:
+                type: string
+              solde:
+                type: integer
