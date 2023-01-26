@@ -6,6 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
+    "build-docker": "docker build -t 4a_ilc_demonceaux_thomas .",
+    "run-docker": "docker run 4a_ilc_demonceaux_thomas",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
