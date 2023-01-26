@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import express from 'express';
 import bodyParser from 'body-parser';
 import csv from 'csv-parser';
@@ -57,6 +58,8 @@ app.post('/transactions', (req, res) => {
         else {
             transaction.t = req.body.date;
         }
+        const hashContent = `${transaction.P1},${transaction.P2},${transaction.t}`;
+        transaction.h = crypto.createHash('sha256').update(hashContent).digest('hex');
         P1.solde = P1.solde - parseInt(req.body.somme);
         P2.solde = P2.solde + parseInt(req.body.somme);
         transactions.push(transaction);
