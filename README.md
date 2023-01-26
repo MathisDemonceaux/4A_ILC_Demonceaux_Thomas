@@ -11,6 +11,15 @@ Ce projet a pour but de mettre en place un pipeline de CI/CD pour un projet d'AP
 
 Pour ce projet nous avons décidés de prendre le premier sujet qui nous a été proposé car nous n'avions pas d'autres sujet de prédilection. Nous avons fait ce projet à l'aide de Node.js car un Gauthier avait déjà de solide dans ce langage.
 
+## Choix clé de hachage
+
+Nous avons décider d'utiliser SHA-256 pour plusieurs raisons :
+
+-C'est l'un des algorithme de hachage le plus utilisé  
+-Il est considéré comme l'algorithme les plus sécurisé  
+-Il est également très fiable et à été utilisée dans diverse applications  
+-Il est également très rapide  
+
 ## Build Status
 
 ![Build Status](https://github.com/MathisDemonceaux/4A_ILC_Demonceaux_Thomas/actions/workflows/node-setup.yml/badge.svg)
