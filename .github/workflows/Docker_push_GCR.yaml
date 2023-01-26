@@ -31,5 +31,5 @@ jobs:
         with:
           # Emplacement du Dockerfile
           file: Dockerfile
-          tags: eu.gcr.io/esirem/4A_ILC/Demonceaux_Thomas:${{ github.ref_name }}
+          tags: eu.gcr.io/esirem/4A_ILC/demonceaux_thomas:${{ github.ref_name }}
           push: true
