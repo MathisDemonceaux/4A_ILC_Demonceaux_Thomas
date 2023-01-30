@@ -58,7 +58,7 @@ app.post('/transactions', (req, res) => {
         else {
             transaction.t = req.body.date;
         }
-        const hashContent = `${transaction.P1},${transaction.P2},${transaction.t}`;
+        const hashContent = `${transaction.P1},${transaction.P2},${transaction.s},${transaction.t}`;
         transaction.h = crypto.createHash('sha256').update(hashContent).digest('hex');
         P1.solde = P1.solde - parseInt(req.body.somme);
         P2.solde = P2.solde + parseInt(req.body.somme);
@@ -115,7 +115,7 @@ app.post('/verifierTransaction', (req, res) => {
         return res.status(404).send('La transaction n\'existe pas');
     }
     else {
-        const hashContent = `${transaction.P1},${transaction.P2},${transaction.t}`;
+        const hashContent = `${transaction.P1},${transaction.P2},${transaction.s},${transaction.t}`;
         const hash = crypto.createHash('sha256').update(hashContent).digest('hex');
         if (hash === transaction.h) {
             return res.send('La transaction est valide');
