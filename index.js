@@ -109,7 +109,22 @@ app.get('/importTransactions', (req, res) => {
     return res.send(transactions);
 });
 
-
+app.post('/verifierTransaction', (req, res) => {
+    const transaction = transactions.find(t => t.h === req.body.h);
+    if (!transaction) {
+        return res.status(404).send('La transaction n\'existe pas');
+    }
+    else {
+        const hashContent = `${transaction.P1},${transaction.P2},${transaction.t}`;
+        const hash = crypto.createHash('sha256').update(hashContent).digest('hex');
+        if (hash === transaction.h) {
+            return res.send('La transaction est valide');
+        }
+        else {
+            return res.send('La transaction est invalide');
+        }
+    }
+});
 
 app.listen(3000, () => {
     console.log('Server is up and running on port number 3000');
