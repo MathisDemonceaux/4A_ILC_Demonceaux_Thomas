@@ -1,8 +1,8 @@
 swagger: '2.0'
 info:
-  version: 1.0.0
+  version: 1.2.2
   title: Transactions API
-  description: An API for managing transactions between people
+  description: An API for managing transactions between people.
 host: localhost:3000
 basePath: /
 schemes:
@@ -17,16 +17,7 @@ paths:
           schema:
             type: array
             items:
-              type: object
-              properties:
-                P1:
-                  type: integer
-                P2:
-                  type: integer
-                t:
-                  type: integer
-                s:
-                  type: integer
+              $ref: '#/definitions/Transaction'
   /personnes:
     get:
       summary: Get all people
@@ -36,16 +27,7 @@ paths:
           schema:
             type: array
             items:
-              type: object
-              properties:
-                id:
-                  type: integer
-                nom:
-                  type: string
-                prenom:
-                  type: string
-                solde:
-                  type: integer
+              $ref: '#/definitions/Personne'
     post:
       summary: Create a new person
       parameters:
@@ -57,77 +39,21 @@ paths:
             properties:
               nom:
                 type: string
+                example: Doe
               prenom:
                 type: string
+                example: John
               solde:
                 type: integer
+                example: 534.2
       responses:
         201:
           description: Success
           schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              nom:
-                type: string
-              prenom:
-                type: string
-              solde:
-                type: integer
-  /transactions:
-    get:
-      summary: Get all transactions
-      responses:
-        200:
-          description: Success
-          schema:
-            type: array
-            items:
-              type: object
-              properties:
-                P1:
-                  type: integer
-                P2:
-                  type: integer
-                t:
-                  type: integer
-                s:
-                  type: integer
-    post:
-      summary: Create a new transaction
-      parameters:
-        - name: transaction
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              P1:
-                type: integer
-              P2:
-                type: integer
-              somme:
-                type: integer
-              date:
-                type: integer
-      responses:
-        201:
-          description: Success
-          schema:
-            type: object
-            properties:
-              P1:
-                type: integer
-              P2:
-                type: integer
-              t:
-                type: integer
-              s:
-                type: integer
-  /transactions/{idPersonne}:
-    get:
-      summary: Get transactions involving a specific person
+            $ref: '#/definitions/Personne'
+  /personnes/{idPersonne}:
+    delete:
+      summary: Delete a person
       parameters:
         - name: idPersonne
           in: path
@@ -139,16 +65,55 @@ paths:
           schema:
             type: array
             items:
-              type: object
-              properties:
-                P1:
-                  type: integer
-                P2:
-                  type: integer
-                t:
-                  type: integer
-                s:
-                  type: integer
+              $ref: '#/definitions/Personne'
+        404:
+          description: Not found
+          schema:
+            type: string
+            example: La personne n'existe pas
+  /transactions:
+    get:
+      summary: Get all transactions
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Transaction'
+    post:
+      summary: Create a new transaction
+      parameters:
+        - name: transaction
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Transaction'
+      responses:
+        201:
+          description: Success
+          schema:
+            $ref: '#/definitions/Transaction'
+        403:
+          description: Not enough money
+          schema:
+            type: string
+            example: La personne P1 n'a pas assez d'argent
+  /transactions/{idPersonne}:
+    get:
+      summary: Get transactions for a specific person (sorted by date)
+      parameters:
+        - name: idPersonne
+          in: path
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Transaction'
   /soldePersonne/{idPersonne}:
     get:
       summary: Get the current balance of a specific person
@@ -162,25 +127,74 @@ paths:
           description: Success
           schema:
             type: integer
-  /personnes/{id}:
-    delete:
-      summary: Delete a specific person
+            example: 534.2
+  /importPersonnes:
+    post:
+      summary: Post a CSV file to import people in the database
+      consumes:
+        - multipart/form-data
       parameters:
-        - name: id
-          in: path
+        - name: file
+          in: formData
+          description: "The CSV file, with these columns: id,nom,prenom,solde"
           required: true
-          type: integer
+          type: file
       responses:
         200:
           description: Success
           schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              nom:
-                type: string
-              prenom:
-                type: string
-              solde:
-                type: integer
+            type: array
+            items:
+              $ref: '#/definitions/Personne'
+  /importTransactions:
+    post:
+      summary: Post a CSV file to import transactions in the database
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: file
+          in: formData
+          description: "The CSV file, with these columns: P1,P2,t,s"
+          required: true
+          type: file
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Transaction'
+definitions:
+  Transaction:
+    type: object
+    properties:
+      P1:
+        type: integer
+        example: 1
+      P2:
+        type: integer
+        example: 2
+      t:
+        type: integer
+        example: 1675198971907
+      s:
+        type: number
+        example: 32.5
+      h:
+        type: string
+        example: 3938803314ab277e942720e9689f9af48d258551d407290e6017797efa731ef4
+  Personne:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1
+      nom:
+        type: string
+        example: Doe
+      prenom:
+        type: string
+        example: John
+      solde:
+        type: number
+        example: 534.2
