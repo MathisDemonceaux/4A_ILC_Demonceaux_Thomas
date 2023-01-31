@@ -2,7 +2,6 @@ import crypto from 'crypto';
 import express from 'express';
 import bodyParser from 'body-parser';
 import csv from 'csv-parser';
-import fs from 'fs';
 
 const app = express();
 app.use(bodyParser.json());
@@ -39,7 +38,7 @@ app.post('/personnes', (req, res) => {
         solde: parseInt(req.body.solde || 0)
     }
     personnes.push(personne);
-    return res.send(personne);
+    return res.status(201).send(personne);
 });
 
 app.post('/transactions', (req, res) => {
@@ -63,10 +62,10 @@ app.post('/transactions', (req, res) => {
         P1.solde = P1.solde - parseInt(req.body.somme);
         P2.solde = P2.solde + parseInt(req.body.somme);
         transactions.push(transaction);
-        return res.send(transaction);
+        return res.status(201).send(transaction);
     }
     else {
-        return res.status(404).send('La personne P1 n\'a pas assez d\'argent');
+        return res.status(403).send('La personne P1 n\'a pas assez d\'argent');
     }
 });
 
@@ -81,32 +80,30 @@ app.delete('/personnes/:id', (req, res) => {
         return res.send(personne);
     }
 });
-//open a csv file an import data in personnes
-app.get('/importPersonnes', (req, res) => {
-    //open csv fil name personnes.csv and import data in personnes
-    fs.createReadStream('personnes.csv')
+
+app.post('/importPersonnes', (req, res) => {
+    req
         .pipe(csv())
         .on('data', (row) => {
             personnes.push(row);
         })
         .on('end', () => {
-            console.log('CSV file successfully processed');
+            res.send(personnes);
         });
-    return res.send(personnes);
 });
 
-//open a csv file an import data in transactions
-app.get('/importTransactions', (req, res) => {
-    //open csv fil name transactions.csv and import data in transactions
-    fs.createReadStream('transactions.csv')
+app.post('/importTransactions', (req, res) => {
+    req
         .pipe(csv())
         .on('data', (row) => {
-            transactions.push(row);
+            transactions.push({
+                ...row,
+                h: crypto.createHash('sha256').update(`${row.P1},${row.P2},${row.s},${row.t}`).digest('hex')
+            });
         })
         .on('end', () => {
-            console.log('CSV file successfully processed');
+            res.send(transactions);
         });
-    return res.send(transactions);
 });
 
 app.post('/verifierTransaction', (req, res) => {
@@ -121,7 +118,7 @@ app.post('/verifierTransaction', (req, res) => {
             return res.send('La transaction est valide');
         }
         else {
-            return res.send('La transaction est invalide');
+            return res.status(400).send('La transaction est invalide');
         }
     }
 });
