@@ -128,6 +128,26 @@ paths:
           schema:
             type: integer
             example: 534.2
+  /verifierTransaction:
+    post:
+      summary: Verify the hash of a transaction
+      parameters:
+        - name: personne
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Transaction'
+      responses:
+        200:
+          description: Success
+          schema:
+            type: string
+            example: La transaction est valide
+        400:
+          description: Hash invalid
+          schema:
+            type: string
+            example: La transaction est invalide
   /importPersonnes:
     post:
       summary: Post a CSV file to import people in the database
