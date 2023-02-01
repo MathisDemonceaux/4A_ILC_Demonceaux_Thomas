@@ -41,6 +41,8 @@ L'API s'utilise avec des requêtes HTTP, à l'adresse suivante : http://localhos
 
 Les routes de l'API sont documentées dans le fichier swagger.yaml, qui est utilisé par Swagger pour générer la documentation de l'API.
 
+Vous pouvez consulter le Swagger généré en ligne à cette adresse : [https://mathisdemonceaux.github.io/4A_ILC_Demonceaux_Thomas/](https://mathisdemonceaux.github.io/4A_ILC_Demonceaux_Thomas/)
+
 ## Statuts des workflows
 
 ![Node.js Application Build](https://github.com/MathisDemonceaux/4A_ILC_Demonceaux_Thomas/actions/workflows/node-setup.yml/badge.svg)
